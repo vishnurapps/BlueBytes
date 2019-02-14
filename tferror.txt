@@ -1,0 +1,72 @@
+Using TensorFlow backend.
+
+---------------------------------------------------------------------------
+ImportError                               Traceback (most recent call last)
+<ipython-input-22-b9e2c8277ae4> in <module>()
+----> 1 from keras.models import Sequential
+      2 from keras.layers import Dense
+
+~/anaconda3/envs/python-bluebytes/lib/python3.6/site-packages/keras/__init__.py in <module>()
+      1 from __future__ import absolute_import
+      2 
+----> 3 from . import utils
+      4 from . import activations
+      5 from . import applications
+
+~/anaconda3/envs/python-bluebytes/lib/python3.6/site-packages/keras/utils/__init__.py in <module>()
+      4 from . import data_utils
+      5 from . import io_utils
+----> 6 from . import conv_utils
+      7 
+      8 # Globally-importable utils.
+
+~/anaconda3/envs/python-bluebytes/lib/python3.6/site-packages/keras/utils/conv_utils.py in <module>()
+      7 from six.moves import range
+      8 import numpy as np
+----> 9 from .. import backend as K
+     10 
+     11 
+
+~/anaconda3/envs/python-bluebytes/lib/python3.6/site-packages/keras/backend/__init__.py in <module>()
+     87 elif _BACKEND == 'tensorflow':
+     88     sys.stderr.write('Using TensorFlow backend.\n')
+---> 89     from .tensorflow_backend import *
+     90 else:
+     91     # Try and load external backend.
+
+~/anaconda3/envs/python-bluebytes/lib/python3.6/site-packages/keras/backend/tensorflow_backend.py in <module>()
+      3 from __future__ import print_function
+      4 
+----> 5 import tensorflow as tf
+      6 from tensorflow.python.framework import ops as tf_ops
+      7 from tensorflow.python.training import moving_averages
+
+~/anaconda3/envs/python-bluebytes/lib/python3.6/site-packages/tensorflow/__init__.py in <module>()
+     20 
+     21 # pylint: disable=g-bad-import-order
+---> 22 from tensorflow.python import pywrap_tensorflow  # pylint: disable=unused-import
+     23 
+     24 try:
+
+~/anaconda3/envs/python-bluebytes/lib/python3.6/site-packages/tensorflow/python/__init__.py in <module>()
+     50 
+     51 # Protocol buffers
+---> 52 from tensorflow.core.framework.graph_pb2 import *
+     53 from tensorflow.core.framework.node_def_pb2 import *
+     54 from tensorflow.core.framework.summary_pb2 import *
+
+~/anaconda3/envs/python-bluebytes/lib/python3.6/site-packages/tensorflow/core/framework/graph_pb2.py in <module>()
+      4 import sys
+      5 _b=sys.version_info[0]<3 and (lambda x:x) or (lambda x:x.encode('latin1'))
+----> 6 from google.protobuf import descriptor as _descriptor
+      7 from google.protobuf import message as _message
+      8 from google.protobuf import reflection as _reflection
+
+~/anaconda3/envs/python-bluebytes/lib/python3.6/site-packages/google/protobuf/descriptor.py in <module>()
+     45   import binascii
+     46   import os
+---> 47   from google.protobuf.pyext import _message
+     48   _USE_C_DESCRIPTORS = getattr(_message, '_USE_C_DESCRIPTORS', False)
+     49 
+
+ImportError: /home/quest/anaconda3/envs/python-bluebytes/lib/python3.6/site-packages/google/protobuf/pyext/_message.cpython-36m-x86_64-linux-gnu.so: undefined symbol: _ZNK6google8protobuf10TextFormat17FieldValuePrinter9PrintBoolEb
