@@ -57,27 +57,24 @@ body {
     transition: all 0.1s ease-in-out;
   }
 
-  /* fieldset {
-    display: block;
-    -webkit-margin-start: 0px;
-    -webkit-margin-end: 0px;
-    -webkit-padding-before: 0em;
-    -webkit-padding-start: 0em;
-    -webkit-padding-end: 0em;
-    -webkit-padding-after: 0em;
-    border: 0px;
-    border-image-source: initial;
-    border-image-slice: initial;
-    border-image-width: initial;
-    border-image-outset: initial;
-    border-image-repeat: initial;
-    min-width: -webkit-min-content;
-    padding: 30px;
-  } */
-  
-  /* .ghost-input:focus {
-    border-bottom:1px solid #ddd;
-  } */
+  .user-button-dissabled{
+    background: rgb(85, 85, 85);
+    color: white;
+    text-align: center;
+    font-size: 30px;
+    pointer-events: none;
+    cursor: default;
+  }
+
+  .user-button-enabled{
+    background: rgb(47, 112, 47);
+    color: white;
+    text-align: center;
+    font-size: 30px;
+    pointer-events: all;
+    cursor: pointer;
+  }
+
   .ghost-button {
     background-color: transparent;
     border:2px solid #ddd;

@@ -5,42 +5,63 @@
     <title>Auto Training</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+    <script>
+        function pathChanged(){
+          var btnStart = document.getElementById('btnStart');
+
+          if(document.getElementById('autosrcdir').value != "" &&
+             document.getElementById('autodestdir').value != ""){
+              btnStart.className = 'user-button-enabled';
+          }
+          else{
+              btnStart.className = 'user-button-dissabled';
+          }
+        }
+
+        function doAutoTraining(){
+          var pathPanel = document.getElementById('pathSelectPanel');
+          pathPanel.className = 'dissabledelem'
+        }
+    </script>
   </head>
   <body>
 
-    <div id="links" class="applinks">
-      <span class="dissabledlink nonSelectableText">Auto Training</span>
-      <span class="selectablelink nonSelectableText" onclick="window.location.replace('./manual')">Manual Training</span>
-      <span class="selectablelink nonSelectableText" onclick="window.location.replace('./validate')">Validation</span>
-    </div>
+    <div id="pathSelectPanel">
+        <div id="links" class="applinks">
+          <span class="dissabledlink nonSelectableText">Auto Training</span>
+          <span class="selectablelink nonSelectableText" onclick="window.location.replace('./manual')">Manual Training</span>
+          <span class="selectablelink nonSelectableText" onclick="window.location.replace('./validate')">Validation</span>
+        </div>
 
-    <div style="padding-top: 55px; padding-left: 55px">
-      <table cellpadding="15" style="width: 85%;">
-        <tr>
-           <td style="width: 260px;">
-              <label class="nonSelectableText" style="font-size: 25px;" >Input Image Samples</label>
-            </td>
-            <td>
-              <input name="autosrcdir" type="text" class="user-input" placeholder="Image Input Samples Directory path" required>
-           </td>
-        </tr>
-        <tr>
-           <td>
-              <label class="nonSelectableText" style="font-size: 25px;">Output Image Samples</label>
-            </td>
-            <td>
-              <input name="autodestdir" type="text" class="user-input" placeholder="Image Output Samples Directory path" required>
-           </td>
-        </tr>
-        <tr>
-          <td rowspan="2">
-              <div class="nonSelectableText" style="padding-top: 15px">
-                  <div>Start Training</div>
-              </div>
-          </td>
-        </tr>        
-      </table>      
-
+        <div style="padding-top: 55px; padding-left: 55px">
+          <table cellpadding="15" style="width: 85%;">
+            <tr>
+               <td style="width: 260px;">
+                  <label class="nonSelectableText" style="font-size: 25px;" >Input Image Samples</label>
+                </td>
+                <td>
+                  <input id="autosrcdir" type="text" class="user-input" placeholder="Image Input Samples Directory path" onKeyUp="pathChanged()" required>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <label class="nonSelectableText" style="font-size: 25px;">Output Image Samples</label>
+                </td>
+                <td>
+                  <input id="autodestdir" type="text" class="user-input" placeholder="Image Output Samples Directory path" onKeyUp="pathChanged()" required>
+               </td>
+            </tr>
+            <tr>
+              <td rowspan="2">
+                  <div class="nonSelectableText" style="padding-top: 15px">
+                      <div id="btnStart" class="user-button-dissabled" style="width: 200px" onclick="doAutoTraining()">
+                        Start Training
+                      </div>
+                  </div>
+              </td>
+            </tr>        
+          </table>
+        </div>
     </div>
 
   </body>
