@@ -8,19 +8,30 @@
   </head>
   <body>
 
-    <div id="links" class="applinks">
-      <span class="selectablelink nonSelectableText" onclick="window.location.replace('./auto')">Auto Training</span>
-      <span class="dissabledlink nonSelectableText">Manual Training</span>
-      <span class="selectablelink nonSelectableText" onclick="window.location.replace('./validate')">Validation</span>
-    </div>
+      <div class="progdiv">
+          <div id="links" class="applinks">
+              <span class="selectablelink nonSelectableText" onclick="window.location.replace('./auto')">Auto Training</span>
+              <span class="dissabledlink nonSelectableText">Manual Training</span>
+              <span class="selectablelink nonSelectableText" onclick="window.location.replace('./validate')"">Validation</span>
+          </div>
 
-    <div class="container">
-      <fieldset>
-        <form action="/" method="post">
-          <input name="city" type="text" class="ghost-input" placeholder="Manual" required>
-          <input type="submit" class="ghost-button" value="Get Weather">
-        </form>
-      </fieldset>
-    </div>
+          <div id="ipImg" class="trainimagediv" style="margin-top: 10%; margin-left: 5%; background-image: url('/images/sheppLoganPhantom.png'); background-repeat: no-repeat; background-size: 100% 100%"></div>
+
+          <div class="nonSelectableText" style="position: absolute; margin-top: 6%; margin-left: 5%;">
+              <div style="position: absolute; width: 300px; background: rgb(204, 203, 203);
+                                        color: #363636;
+                                        text-align: center;
+                                        font-size: 30px;
+                                        pointer-events: none;
+                                        cursor: default;">
+                Input Image
+              </div>
+          </div>
+          <div class="nonSelectableText" style="position: absolute; margin-top: 33%; margin-left: 5%;">
+              <div id="btnNext" class="user-button-enabled" style="position: absolute; width: 300px;" onclick="onNext()">
+                Next
+              </div>
+          </div>
+      </div>
   </body>
 </html>
