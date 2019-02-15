@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Auto Training</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+    <script>
+        function pathChanged(){
+          if(document.getElementById('autosrcdir').value != "" &&
+             document.getElementById('autodestdir').value != ""){
+              btnStart.className = 'user-button-enabled';
+          }
+          else{
+              btnStart.className = 'user-button-dissabled';
+          }
+        }
+
+        function doAutoTraining(){
+          var pathPanel = document.getElementById('pathSelectPanel');
+          var progdiv = document.getElementById('learnProgressInfo');
+          var progBar = document.getElementById('trainprog');
+          var progPerc = document.getElementById('trainPerc');
+          var ipImgDiv = document.getElementById('autoIpImg');
+          var opImgDiv = document.getElementById('autoOpImg');
+
+          var ipDir = document.getElementById('autosrcdir');
+          var opDir = document.getElementById('autodestdir');
+          var btnStart = document.getElementById('btnStart');
+
+          pathPanel.className = 'dissabledelem';
+          progdiv.style.display = "block";
+
+          try{
+              var xmlhttp = new XMLHttpRequest();
+              xmlhttp.open("POST", "http://localhost:5001/initAutoTrain", false);
+              xmlhttp.setRequestHeader("Content-Type", "application/json");
+              xmlhttp.send(JSON.stringify({ "ipdir": ipDir.value,
+                                            "opdir": opDir.value }));
+              if(xmlhttp.status == 200){
+                var resp = JSON.parse(xmlhttp.response);
+                if(resp.status == "ok"){
+
+                    do{
+                      xmlhttp = new XMLHttpRequest();
+                      xmlhttp.open("GET", "http://localhost:5001/autoTrainStatus", false);
+                      xmlhttp.send();
+                      resp = JSON.parse(xmlhttp.response);
+                    
+                      progBar.style.width = resp.perc + "%";
+                      progPerc.textContent = resp.perc + " %";
+                      ipImgDiv.style.backgroundImage = "url('" + resp.ipImage + "')";
+                      opImgDiv.style.backgroundImage = "url('" + resp.opImage + "')";
+                    }while(xmlhttp.status == 200 && resp.status != "done");
+                }
+              }
+          }
+          catch(err){ }
+          finally{
+              pathPanel.className = "";
+              progdiv.style.display = "none";
+              ipDir.value = null;
+              opDir.value = null;
+              btnStart.className = 'user-button-dissabled';
+          }
+        }
+    </script>
+  </head>
+  <body>
+
+    <div id="pathSelectPanel">
+        <div id="links" class="applinks">
+          <span class="dissabledlink nonSelectableText">Auto Training</span>
+          <span class="selectablelink nonSelectableText" onclick="window.location.replace('./manual')">Manual Training</span>
+          <span class="selectablelink nonSelectableText" onclick="window.location.replace('./validate')">Validation</span>
+        </div>
+
+        <div style="padding-top: 55px; padding-left: 55px">
+          <table cellpadding="15" style="width: 85%;">
+            <tr>
+               <td style="width: 260px;">
+                  <label class="nonSelectableText" style="font-size: 25px;" >Input Image Samples</label>
+                </td>
+                <td>
+                  <input id="autosrcdir" type="text" class="user-input" placeholder="Image Input Samples Directory path" onKeyUp="pathChanged()" required>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <label class="nonSelectableText" style="font-size: 25px;">Output Image Samples</label>
+                </td>
+                <td>
+                  <input id="autodestdir" type="text" class="user-input" placeholder="Image Output Samples Directory path" onKeyUp="pathChanged()" required>
+               </td>
+            </tr>
+            <tr>
+              <td rowspan="2">
+                  <div class="nonSelectableText" style="padding-top: 15px">
+                      <div id="btnStart" class="user-button-dissabled" style="width: 200px" onclick="doAutoTraining()">
+                        Start Training
+                      </div>
+                  </div>
+              </td>
+            </tr>        
+          </table>
+        </div>
+    </div>
+
+    <div id="learnProgressInfo" class="progdiv" style="display:none">
+        <div id="autoIpImg" class="trainimagediv" style="margin-top: 10%; margin-left: 10%; background: orangered;"></div>
+        <div id="autoOpImg" class="trainimagediv" style="margin-top: 10%; margin-left: 65%; background: orangered;"></div>
+        <div class="progressbar" style="margin-top: 15%;margin-left: 38%;">
+            <div id = "trainprog" style="background: green; height: 100%; width: 0%"></div>
+        </div>
+        <div id= "trainPerc" class="progressperc" style="margin-top: 3%; margin-left: 45%;">
+          0 %
+        </div>
+    </div>
+
+  </body>
+</html>
