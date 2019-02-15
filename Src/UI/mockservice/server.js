@@ -26,6 +26,7 @@ var server = app.listen(5001, function () {
     res.json({status: "ok"});
  });
  var mocki = -1;
+ mockiNext = -1;
  app.get('/test', function (req, res) {
     mocki = -1;
     res.end( JSON.stringify({"value": "1"}));
@@ -37,6 +38,20 @@ var server = app.listen(5001, function () {
                   {status: "done", perc: 100,ipImage:"http://a360-wp-uploads.s3.amazonaws.com/wp-content/uploads/x7mag/2017/10/dreamstime_s_68930604-466x310.jpg", opImage:"https://www.fda.gov/ucm/groups/fdagov-public/documents/image/ucm437096.jpg"}];
 
  app.get('/autoTrainStatus', function (req, res) {
-     ++mocki;
+   mocki = (++mocki)%4;
     setTimeout(function(){res.json(autoTrainMock[mocki])}, 1000);
  });
+
+ MockNext = [{status: "ok", imageurl:"https://www.fda.gov/ucm/groups/fdagov-public/documents/image/ucm437096.jpg"},
+             {status: "ok", imageurl:"http://a360-wp-uploads.s3.amazonaws.com/wp-content/uploads/x7mag/2017/10/dreamstime_s_68930604-466x310.jpg"},
+             {status: "done", imageurl:null}];
+ app.get('/getNextValidation', function (req, res) {
+    mockiNext = (++mockiNext)%3;
+    setTimeout(function(){res.json(MockNext[mockiNext])}, 1000);
+ });
+
+ app.get('/getProcessed', function (req, res) {
+   setTimeout(function(){res.json({opImage:"https://www.fda.gov/ucm/groups/fdagov-public/documents/image/ucm437096.jpg", expImage:"http://a360-wp-uploads.s3.amazonaws.com/wp-content/uploads/x7mag/2017/10/dreamstime_s_68930604-466x310.jpg"})}, 1000);
+});
+ 
+ 

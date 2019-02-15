@@ -94,6 +94,12 @@ body {
   height: 300px;
 }
 
+.filterimagediv{
+  position: absolute;
+  width: 150px; 
+  height: 150px;
+}
+
 .progressbar{
   width: 300px;
   height: 5px;  
