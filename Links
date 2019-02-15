@@ -2,14 +2,20 @@ Instrastructure
   - https://thishosting.rocks/how-to-enable-ssh-on-ubuntu/
   - https://askubuntu.com/questions/681312/how-to-update-firefox-on-ubuntu
 
-  - Anaconda instaler
+  - Anaconda
     https://repo.continuum.io/archive/
+    https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html  --> To create env
+  - Git hub
+    https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
+    https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/
+    
 
 
 Dataset Links Used
    - https://www.dropbox.com/sh/6nzd4yjafaib0h8/AADsuY56pFTaAWTTj0BfKq4ba?dl=0
    - https://www.dropbox.com/sh/zx96edvc8ux2ecr/AAA873AkQv2KIB2Rzw7xMRSna?dl=0
-   - https://mri.radiology.uiowa.edu/visible_human_datasets.html
+   - https://mri.radiology.uiowa.edu/images_main.html
+     - https://mri.radiology.uiowa.edu/visible_human_datasets.html
 
 Trello
    - https://trello.com/b/Kr393gYe/bluebytes
@@ -30,4 +36,20 @@ Image Processing
   - Tensor Examples
     https://programtalk.com/python-examples/tensorflow.random_normal/
 
+Node Js
+  - Node
+    https://nodejs.org/dist/v8.10.0/docs/api/
+    https://nodejs.org/en/docs/guides/getting-started-guide/
+    
+  - Node to python
+    https://ourcodeworld.com/articles/read/286/how-to-execute-a-python-script-and-retrieve-output-data-and-errors-in-node-js
+  
+  - Node to HTML
+
+Python
+
+
+Angular
+
+HTML
 
