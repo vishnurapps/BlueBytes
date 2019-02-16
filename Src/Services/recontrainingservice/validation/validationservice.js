@@ -1,5 +1,10 @@
 const Util = require('../serviceutil.js')
 const ValidationModel = require('./validationmodel.js');
+// Use python shell
+const {PythonShell} = require('python-shell')
+const validationPythonScript =  __dirname + '/validation.py';
+//var pyshell = new PythonShell(validationPythonScript);
+
 
 global.currentImageIndex = 0;
 module.inputFiles = new Array();
@@ -46,10 +51,20 @@ ValidationService.prototype.registerNextInput = function(app){
  */
 ValidationService.prototype.registerValidationProcess = function(app){
     app.get('/validation/process', function (req, res) {
-        // 1. Get the current image url
+        // 1. Get the current input, generated and output image path
+        var inImage = Util.getFullFilePath(Util.VALIDATION_MODE_IN_FOLDER + '/' + this.inputFiles[currentImageIndex]);
+        var outImage = Util.getFullFilePath(Util.VALIDATION_MODE_OUT_FOLDER + '/' + this.outputFiles[currentImageIndex]);
+        var genImage = Util.getFullFilePath(Util.VALIDATION_MODE_GEN_FOLDER + '/' + this.genFiles[currentImageIndex]);
+
+       // console.log(inImage, outImage, genImage);
 
         // 2. Execute Python script to get the processed image path using AI model
-
+        var options = {mode: 'text', args: [inImage, genImage]};
+        PythonShell.run(validationPythonScript, options, function (err, results) {
+            if (err) throw err;
+            // results is an array consisting of messages collected during execution
+            console.log('results: %j', results);
+        });
 
         // 3. Get the expected output image url
 
@@ -59,4 +74,9 @@ ValidationService.prototype.registerValidationProcess = function(app){
         res.end();
     });
 }
+
+
+
+
+
 module.exports = ValidationService;
