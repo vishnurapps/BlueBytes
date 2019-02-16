@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
     <script>
+        var RestBaseURL = "http://localhost:5001/";
 
         function doAutoTraining(){
           var progdiv = document.getElementById('learnProgressInfo');
@@ -21,7 +22,7 @@
           try{
                 do{
                   xmlhttp = new XMLHttpRequest();
-                  xmlhttp.open("GET", "http://localhost:5001/autoTrainStatus", false);
+                  xmlhttp.open("GET", RestBaseURL + "auto", false);
                   xmlhttp.send();
                   resp = JSON.parse(xmlhttp.response);
                 
@@ -29,7 +30,7 @@
                   progPerc.textContent = resp.percentage + " %";
                   ipImgDiv.style.backgroundImage = "url('" + resp.inputFile + "')";
                   opImgDiv.style.backgroundImage = "url('" + resp.outfile + "')";
-                }while(xmlhttp.status == 200 && resp.status != "Completed");
+                }while(xmlhttp.status == 200 && resp.status != "COMPLETED");
 
           }
           catch(err){ }
