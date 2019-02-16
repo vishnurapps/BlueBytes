@@ -11,6 +11,7 @@ from skimage import measure
 
 
 def test(image):
+    print("inside test...........")
     tf.reset_default_graph()
 
     global_step = tf.Variable(0, dtype=tf.int32, trainable=False, name='global_step')
@@ -40,7 +41,14 @@ def test(image):
         return image
 
 def denoise(image):
+    print("inside denoise....................")
     image = scipy.misc.imread(image, mode='RGB').astype('float32')
+    #image = scipy.misc.imread(image, mode='F').astype('float32')
+    #image[:,:,0] = rgb2gray(image)
+    #image[:,:,1] = 0
+    #image[:,:,2] = 0
+    #scipy.misc.imsave(IMG_DIR+'gray.png', image)
+    #imsave('output_F', image)
     npad = ((56, 56), (0, 0), (0, 0))
     image = np.pad(image, pad_width=npad, mode='constant', constant_values=0)
     image = np.expand_dims(image, axis=0)
@@ -48,9 +56,12 @@ def denoise(image):
     output = test(image)
     return output
 
-
+def returnGround(image):
+    image = scipy.misc.imread(image, mode='RGB').astype('float32')
+    return image
 
 if __name__=='__main__':
+    print("inside main....................")
     image = scipy.misc.imread(sys.argv[-1], mode='RGB').astype('float32')
     npad = ((56, 56), (0, 0), (0, 0))
     image = np.pad(image, pad_width=npad, mode='constant', constant_values=0)

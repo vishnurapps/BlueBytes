@@ -19,7 +19,8 @@ BATCH_SIZE = 5
 BATCH_SHAPE = [BATCH_SIZE, 256, 256, 3]
 SKIP_STEP = 10
 N_EPOCHS = 500
-CKPT_DIR = './Checkpoints/'
+#CKPT_DIR = './Checkpoints/'
+CKPT_DIR = '/home/quest/newModel/'
 IMG_DIR = './Images/'
 GRAPH_DIR = './Graphs/'
 TRAINING_SET_DIR= './dataset/training/'
@@ -33,6 +34,8 @@ STYLE_LOSS_FACTOR = 1.0
 SMOOTH_LOSS_FACTOR = 1.0
 metrics_image = scipy.misc.imread(METRICS_SET_DIR+'gt.png', mode='RGB').astype('float32')
 
+def rgb2gray(rgb):
+    return np.dot(rgb[...,:3], [0.299, 0.587, 0.114])
 
 def initialize(sess):
     saver = tf.train.Saver()
@@ -88,7 +91,7 @@ def training_dataset_init():
 
 
 def imsave(filename, image):
-    scipy.misc.imsave(IMG_DIR+filename+'.png', image)
+    scipy.misc.imsave(IMG_DIR+filename+'.png', rgb2gray(image))
 
 def merge_images(file1, file2):
     """Merge two images into one, displayed side by side
