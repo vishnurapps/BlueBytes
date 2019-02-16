@@ -17,19 +17,34 @@
           var btnStart = document.getElementById('btnStart');
           btnStart.className = 'user-button-dissabled';
 
-
           try{
-                do{
-                  xmlhttp = new XMLHttpRequest();
-                  xmlhttp.open("GET", "http://localhost:5001/autoTrainStatus", false);
-                  xmlhttp.send();
-                  resp = JSON.parse(xmlhttp.response);
+                var xmlhttp = new XMLHttpRequest();
+                var url = "http://192.168.3.167:5003/auto/";
+
+                xmlhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var resp = JSON.parse(this.responseText);
+                        progBar.style.width = resp.percentage + "%";
+                        progPerc.textContent = resp.percentage + " %";
+                        ipImgDiv.style.backgroundImage = "url('" + resp.inputFile + "')";
+                        opImgDiv.style.backgroundImage = "url('" + resp.outfile + "')";
+                    }
+                };
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+
+
+                // do{
+                //   xmlhttp = new XMLHttpRequest();
+                //   xmlhttp.open("GET", "http://http://192.168.3.167:5003/auto/", false);
+                //   xmlhttp.send();
+                //   resp = JSON.parse(xmlhttp.response);
                 
-                  progBar.style.width = resp.percentage + "%";
-                  progPerc.textContent = resp.percentage + " %";
-                  ipImgDiv.style.backgroundImage = "url('" + resp.inputFile + "')";
-                  opImgDiv.style.backgroundImage = "url('" + resp.outfile + "')";
-                }while(xmlhttp.status == 200 && resp.status != "Completed");
+                //   progBar.style.width = resp.percentage + "%";
+                //   progPerc.textContent = resp.percentage + " %";
+                //   ipImgDiv.style.backgroundImage = "url('" + resp.inputFile + "')";
+                //   opImgDiv.style.backgroundImage = "url('" + resp.outfile + "')";
+                // }while(xmlhttp.status == 200 && resp.status != "Completed");
 
           }
           catch(err){ }
