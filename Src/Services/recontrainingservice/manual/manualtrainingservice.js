@@ -46,22 +46,22 @@ ManualTrainingService.prototype.registerNextInput = function(app){
  */
 ManualTrainingService.prototype.registerManualProcess = function(app){
     app.get('/manual/process', function (req, res) {
-        // 1. Get the current input, generated and output image path
-        var inImage = Util.getFullFilePath(Util.MANUAL_MODE_IN_FOLDER + '/' + this.inputFiles[currentImageIndex]);
-        var outImage = Util.getFullFilePath(Util.MANUAL_MODE_OUT_FOLDER + '/' + this.outputFiles[currentImageIndex]);
-        var genImage = Util.getFullFilePath(Util.MANUAL_MODE_GEN_FOLDER + '/' + this.genFiles[currentImageIndex]);
+        // 1. Get the current input, generated and output image urls
+        var inImageUrl = Util.getFileUrl(Util.MANUAL_MODE_IN_FOLDER + '/' + this.inputFiles[currentImageIndex]);
+        var outImageUrl = Util.getFileUrl(Util.MANUAL_MODE_OUT_FOLDER + '/' + this.outputFiles[currentImageIndex]);
+        var genImageUrlArray = new Array();
+        for(var index = 1; index <= 4; index++){
+            genImageUrlArray[index - 1] = Util.getFileUrl(Util.MANUAL_MODE_GEN_FOLDER + '/' + 'b' + index + '/'
+                                         + this.genFiles[currentImageIndex]);
+        }
+        console.log(inImageUrl, outImageUrl, genImageUrlArray);
 
-       console.log(inImage, outImage, genImage);
-
-        // 3. Prepare the validationModel with processed and expected out image url
+        // 3. Prepare the Manual model with processed and expected out image url
         let percentage = 100;
         let status = Util.STATUS_COMPLETED;
         var manualTrainingModel = new ManualTrainingModel(
-                            Util.getFileUrl(Util.MANUAL_MODE_IN_FOLDER + '/' + this.inputFiles[currentImageIndex]),
-                            Util.getFileUrl(Util.MANUAL_MODE_OUT_FOLDER + '/' + this.outputFiles[currentImageIndex]),
-                            Util.getFileUrl(Util.MANUAL_MODE_GEN_FOLDER + '/' + this.genFiles[currentImageIndex]),                                    
-                            status, percentage);
-        console.log(this.genFiles);
+                                    inImageUrl, outImageUrl, genImageUrlArray,
+                                    status, percentage);
         // 4. Update the response with processed and expected out image url
         res.write(JSON.stringify(manualTrainingModel));
         res.end();
