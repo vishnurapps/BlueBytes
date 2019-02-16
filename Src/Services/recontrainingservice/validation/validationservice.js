@@ -1,9 +1,8 @@
-const Util = require('../serviceutil.js')
+const Util = require('../serviceutil.js');
 const ValidationModel = require('./validationmodel.js');
 // Use python shell
 const {PythonShell} = require('python-shell')
 const validationPythonScript =  __dirname + '/validation.py';
-//var pyshell = new PythonShell(validationPythonScript);
 
 
 global.currentImageIndex = 0;
@@ -95,9 +94,5 @@ ValidationService.prototype.registerValidationProcess = function(app){
         });
     });
 }
-
-
-
-
 
 module.exports = ValidationService;
