@@ -3,8 +3,8 @@ var express = require('express');
 // Custom
 const Util = require('./serviceutil.js')
 const AutoTrainingService = require('./auto/autotrainingservice.js');
+const ManualTrainingService = require('./manual/manualtrainingservice.js');
 const ValidationService = require('./validation/validationservice.js');
-
 
 // Create Express instance
 var app = express();
@@ -23,6 +23,11 @@ app.use(function(req, res, next) {
 var autoService = new AutoTrainingService();
 autoService.registerAutoTraining(app);
 
+// Register Manual methods
+var manualService = new ManualTrainingService();
+manualService.registerNextInput(app);
+manualService.registerManualProcess(app);
+
 // Register Validation methods
 var validationService = new ValidationService();
 validationService.registerNextInput(app);
@@ -32,13 +37,3 @@ validationService.registerValidationProcess(app);
 var server = app.listen(Util.PORT, Util.HOST_NAME, function () {
     console.log("Training Service listening at http://%s:%s", Util.HOST_NAME, Util.PORT);
 });
-
-// app.get('/manualtraining', function (req, res) {
-//   // Read the files from both input and output folders
-//   const inputFiles = fs.readdirSync(autoModeInputFolder);
-//   const outputFiles = fs.readdirSync(autoModeOutputFolder);
-//   // const outputFiles = fs.readdirSync(autoModeOutputFolder);  
-
-//   let index = 0;
-//   setTimeout(function(){res.json(autoTrainMock[index])}, 1000);
-// });

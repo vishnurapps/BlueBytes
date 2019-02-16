@@ -1,7 +1,12 @@
+import numpy as np
+import scipy.misc
+from test import *
 import sys
-inputFilePath = sys.argv[0]
-genFilePath = sys.argv[1]
 
+inputImage = sys.argv[1]
+outputPath = sys.argv[2]
+outputImage = denoise(inputImage)
+scipy.misc.imsave(outputPath, outputImage)
 
 print("COMPLETED")
 print("PSNR")
