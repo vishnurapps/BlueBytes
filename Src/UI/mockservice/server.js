@@ -51,7 +51,8 @@ var server = app.listen(5001, function () {
  });
 
  app.get('/getProcessed', function (req, res) {
-   setTimeout(function(){res.json({opImage:"https://www.fda.gov/ucm/groups/fdagov-public/documents/image/ucm437096.jpg", expImage:"http://a360-wp-uploads.s3.amazonaws.com/wp-content/uploads/x7mag/2017/10/dreamstime_s_68930604-466x310.jpg"})}, 1000);
+   setTimeout(function(){res.json({opImage:"https://www.fda.gov/ucm/groups/fdagov-public/documents/image/ucm437096.jpg", expImage:"http://a360-wp-uploads.s3.amazonaws.com/wp-content/uploads/x7mag/2017/10/dreamstime_s_68930604-466x310.jpg",
+                                   labels:["PSNR: 1.34343334343", "SNPR: 5.3433", "NR/PS : 100", "TSNR: 0.000121"]})}, 1000);
 });
  
 mockmanualNexti =0;

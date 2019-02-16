@@ -10,6 +10,10 @@
         function doProcessing(){
           var opImgDiv = document.getElementById('opImg');
           var expImgDiv = document.getElementById('imgexp');
+          var lbl1 = document.getElementById('measureDiv1');
+          var lbl2 = document.getElementById('measureDiv2');
+          var lbl3 = document.getElementById('measureDiv3');
+          var lbl4 = document.getElementById('measureDiv4');
 
           try{
                 xmlhttp = new XMLHttpRequest();
@@ -19,6 +23,10 @@
               
                 opImgDiv.style.backgroundImage = "url('" + resp.opImage + "')";
                 expImgDiv.style.backgroundImage = "url('" + resp.expImage + "')";
+                lbl1.innerText = resp.labels[0];
+                lbl2.innerText = resp.labels[1];
+                lbl3.innerText = resp.labels[2];
+                lbl4.innerText = resp.labels[3];
           }
           catch(err){ }
           finally{
@@ -96,6 +104,38 @@
               Expected Image
             </div>
         </div>
+
+        <div class="nonSelectableText" style="position: absolute; margin-top: 33%; margin-left: 42%;">
+            <div id="measureDiv1" style="width: 300px;
+                                    color: white;
+                                    text-align: left;
+                                    font-size: 13px;
+                                    pointer-events: none;
+                                    cursor: default;">
+            </div>
+            <div id="measureDiv2" style="width: 300px;
+                                    color: white;
+                                    text-align: left;
+                                    font-size: 13px;
+                                    pointer-events: none;
+                                    cursor: default;">
+            </div>
+            <div id="measureDiv3" style="width: 300px;
+                                    color: white;
+                                    text-align: left;
+                                    font-size: 13px;
+                                    pointer-events: none;
+                                    cursor: default;">
+            </div>
+            <div id="measureDiv4" style="width: 300px;
+                                    color: white;
+                                    text-align: left;
+                                    font-size: 13px;
+                                    pointer-events: none;
+                                    cursor: default;">
+            </div>
+        </div>
+
         <div class="nonSelectableText" style="position: absolute; margin-top: 20%; margin-left: 30%;">
             <div id="btnProcess" class="user-button-enabled" style="position: absolute; width: 120px;" onclick="doProcessing()">
               Process
