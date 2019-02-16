@@ -31,7 +31,7 @@ exports.STATUS_NONE = "NONE";
 exports.STATUS_PENDING = "PENDING";
 exports.STATUS_PROGRESS = "PROGRESS";
 exports.STATUS_COMPLETED = "COMPLETED";
-exports.STATUS_FAILED = "STATUS_FAILED";
+exports.STATUS_FAILED = "FAILED";
 
 function getFullFilePath(relativePath){
     return require('path').join(PUBLIC_RESOURCE_FULL_PATH, relativePath);
@@ -39,7 +39,7 @@ function getFullFilePath(relativePath){
 exports.getFullFilePath = getFullFilePath;
   
 function getFileUrl(relativePath){
-    console.log(relativePath);
+    //console.log(relativePath);
     return url.parse('http://' + HOST_NAME + ':' + PORT + '/' + relativePath).href;
 }
 exports.getFileUrl = getFileUrl;
