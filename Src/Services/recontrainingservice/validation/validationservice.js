@@ -35,7 +35,8 @@ ValidationService.prototype.registerNextInput = function(app){
     app.get('/validation/next', function (req, res) {
         // 1. Get the Next input image url
         var nextInputUrl = Util.getFileUrl(Util.VALIDATION_MODE_IN_FOLDER + '/' + this.inputFiles[currentImageIndex]);
-        var nextImageObj = { inputFile: nextInputUrl, status: Util.STATUS_NONE }; 
+        var statusValue = currentImageIndex ==  this.inputFiles.length - 1 ? Util.STATUS_COMPLETED : Util.STATUS_NONE;
+        var nextImageObj = { inputFile: nextInputUrl, status: statusValue }; 
 
         // 2. Update the response with next image url
         res.write(JSON.stringify(nextImageObj));
