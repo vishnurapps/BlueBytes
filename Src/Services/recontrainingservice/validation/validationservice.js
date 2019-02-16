@@ -1,7 +1,7 @@
 const Util = require('../serviceutil.js')
 const ValidationModel = require('./validationmodel.js');
 
-module.currentImageIndex = 0;
+global.currentImageIndex = 0;
 module.inputFiles = new Array();
 module.outputFiles = new Array();
 module.genFiles = new Array();
@@ -15,9 +15,10 @@ function ValidationService(){
 
 function createGenFilePaths(){
     this.genFiles = new Array();
-    for(let index = 0; index < this.inputFiles.length; index++){
-        this.genFiles[index] = this.inputFiles[index];
+    for(let index = 0; index < inputFiles.length; index++){
+        this.genFiles[index] = inputFiles[index];
     }
+    console.log(inputFiles);
 }
 
 /**
@@ -27,12 +28,15 @@ function createGenFilePaths(){
 ValidationService.prototype.registerNextInput = function(app){
     app.get('/validation/next', function (req, res) {
         // 1. Get the Next input image url
-        var nextInputUrl = Util.getFileUrl(Util.VALIDATION_MODE_IN_FOLDER + '/' + this.inputFiles[this.currentImageIndex++]);
+        var nextInputUrl = Util.getFileUrl(Util.VALIDATION_MODE_IN_FOLDER + '/' + this.inputFiles[currentImageIndex++]);
         var nextImageObj = { inputFile: nextInputUrl, status: Util.STATUS_NONE }; 
 
         // 2. Update the response with next image url
         res.write(JSON.stringify(nextImageObj));
         res.end();
+        if(currentImageIndex >= this.inputFiles.length){
+            currentImageIndex = 0;
+        }
     });
 }
 

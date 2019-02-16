@@ -2,7 +2,7 @@ const fs = require('fs');
 const url = require('url');
 
 // Host and Port
-const HOST_NAME = "localhost";
+const HOST_NAME = "192.168.3.167";
 exports.HOST_NAME = HOST_NAME;
 const PORT = 5003;
 exports.PORT = PORT;
@@ -38,6 +38,7 @@ function getFullFilePath(relativePath){
 exports.getFullFilePath = getFullFilePath;
   
 function getFileUrl(relativePath){
+    console.log(relativePath);
     return url.parse('http://' + HOST_NAME + ':' + PORT + '/' + relativePath).href;
 }
 exports.getFileUrl = getFileUrl;

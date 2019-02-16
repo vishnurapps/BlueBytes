@@ -18,7 +18,7 @@ AutoTrainingService.prototype.registerAutoTraining = function(app){
         // Loop through each Training images (input and output) ans send to client as callbacks
         for(let index = 0; index < this.inputFiles.length; index++){
           let percentage = ((index + 1)/this.inputFiles.length) * 100;
-          let status = (percentage == 100) ? "Pending" : "Done";
+          let status = (percentage == 100) ? Util.STATUS_PENDING : Util.STATUS_COMPLETED;
           var autoModel = new AutoTrainingModel(
                             Util.getFileUrl(Util.AUTO_MODE_IN_FOLDER + '/' + this.inputFiles[index]),
                             Util.getFileUrl(Util.AUTO_MODE_OUT_FOLDER + '/' + this.outputFiles[index]),
