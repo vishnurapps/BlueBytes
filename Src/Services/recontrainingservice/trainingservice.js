@@ -1,8 +1,9 @@
 var express = require('express');
 
 // Custom
-const AutoTrainingService = require('./autotrainingservice.js');
 const Util = require('./serviceutil.js')
+const AutoTrainingService = require('./auto/autotrainingservice.js');
+
 
 // Create Express instance
 var app = express();

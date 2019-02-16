@@ -1,4 +1,4 @@
-const Util = require('./serviceutil.js')
+const Util = require('../serviceutil.js')
 const AutoTrainingModel = require('./autotrainingmodel.js');
 
 function AutoTrainingService(){
