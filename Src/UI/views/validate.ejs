@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
     <script>
+        var RestBaseURL = "http://localhost:5001/";
 
         function doProcessing(){
           var opImgDiv = document.getElementById('opImg');
@@ -17,12 +18,12 @@
 
           try{
                 xmlhttp = new XMLHttpRequest();
-                xmlhttp.open("GET", "http://localhost:5001/getProcessed", false);
+                xmlhttp.open("GET", RestBaseURL + "validation/process", false);
                 xmlhttp.send();
                 resp = JSON.parse(xmlhttp.response);
               
-                opImgDiv.style.backgroundImage = "url('" + resp.opImage + "')";
-                expImgDiv.style.backgroundImage = "url('" + resp.expImage + "')";
+                opImgDiv.style.backgroundImage = "url('" + resp.outfile + "')";
+                expImgDiv.style.backgroundImage = "url('" + resp.genfile + "')";
                 lbl1.innerText = resp.labels[0];
                 lbl2.innerText = resp.labels[1];
                 lbl3.innerText = resp.labels[2];
@@ -42,16 +43,16 @@
 
           try{
                 xmlhttp = new XMLHttpRequest();
-                xmlhttp.open("GET", "http://localhost:5001/getNextValidation", false);
+                xmlhttp.open("GET", RestBaseURL + "validation/next", false);
                 xmlhttp.send();
 
                 resp = JSON.parse(xmlhttp.response);
-                if(resp.status == "ok"){
-                    ipImgDiv.style.backgroundImage = "url('" + resp.imageurl + "')";
+                if(resp.status == "NONE"){
+                    ipImgDiv.style.backgroundImage = "url('" + resp.inputFile + "')";
                     opImgDiv.style.backgroundImage = "url('/images/sheppLoganPhantom.png')";
                     expImgDiv.style.backgroundImage = "url('/images/sheppLoganPhantom.png')";
                 }
-                else if(resp.status == "done"){
+                else if(resp.status == "COMPLETED"){
                   btnNext.className = 'user-button-dissabled';
                 }
           }

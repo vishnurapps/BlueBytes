@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
     <script>
+        var RestBaseURL = "http://localhost:5001/";
 
         function doAutoTraining(){
           var progdiv = document.getElementById('learnProgressInfo');
@@ -18,34 +19,32 @@
           btnStart.className = 'user-button-dissabled';
 
           try{
-                var xmlhttp = new XMLHttpRequest();
-                var url = "http://192.168.3.167:5003/auto/";
+                // var xmlhttp = new XMLHttpRequest();
+                // var url = "http://192.168.3.167:5003/auto/";
 
-                xmlhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        var resp = JSON.parse(this.responseText);
-                        progBar.style.width = resp.percentage + "%";
-                        progPerc.textContent = resp.percentage + " %";
-                        ipImgDiv.style.backgroundImage = "url('" + resp.inputFile + "')";
-                        opImgDiv.style.backgroundImage = "url('" + resp.outfile + "')";
-                    }
-                };
-                xmlhttp.open("GET", url, true);
-                xmlhttp.send();
+                // xmlhttp.onreadystatechange = function() {
+                //     if (this.readyState == 4 && this.status == 200) {
+                //         var resp = JSON.parse(this.responseText);
+                //         progBar.style.width = resp.percentage + "%";
+                //         progPerc.textContent = resp.percentage + " %";
+                //         ipImgDiv.style.backgroundImage = "url('" + resp.inputFile + "')";
+                //         opImgDiv.style.backgroundImage = "url('" + resp.outfile + "')";
+                //     }
+                // };
+                // xmlhttp.open("GET", url, true);
+                // xmlhttp.send();
 
-
-                // do{
-                //   xmlhttp = new XMLHttpRequest();
-                //   xmlhttp.open("GET", "http://http://192.168.3.167:5003/auto/", false);
-                //   xmlhttp.send();
-                //   resp = JSON.parse(xmlhttp.response);
+                do{
+                  xmlhttp = new XMLHttpRequest();
+                  xmlhttp.open("GET", RestBaseURL + "auto", false);
+                  xmlhttp.send();
+                  resp = JSON.parse(xmlhttp.response);
                 
-                //   progBar.style.width = resp.percentage + "%";
-                //   progPerc.textContent = resp.percentage + " %";
-                //   ipImgDiv.style.backgroundImage = "url('" + resp.inputFile + "')";
-                //   opImgDiv.style.backgroundImage = "url('" + resp.outfile + "')";
-                // }while(xmlhttp.status == 200 && resp.status != "Completed");
-
+                  progBar.style.width = resp.percentage + "%";
+                  progPerc.textContent = resp.percentage + " %";
+                  ipImgDiv.style.backgroundImage = "url('" + resp.inputFile + "')";
+                  opImgDiv.style.backgroundImage = "url('" + resp.outfile + "')";
+                }while(xmlhttp.status == 200 && resp.status != "COMPLETED");
           }
           catch(err){ }
           finally{
