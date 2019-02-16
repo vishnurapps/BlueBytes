@@ -8,8 +8,8 @@
     <script>
         var selectedIndex = -1;
         var selectedImgId = null, selectedBtnId =null;
-        function highlightSelection(imgId, btnId, indx){
-          selectedIndex = indx;
+
+        function clearSelection(){
           if(selectedImgId != null){
               var imgElem = document.getElementById(selectedImgId);
               var btnElem = document.getElementById(selectedBtnId);
@@ -17,16 +17,101 @@
               imgElem.style.borderStyle= "none";
               btnElem.style.background = "rgb(99, 173, 80)";
           }
+        }
 
-          selectedImgId = imgId;
-          selectedBtnId = btnId;
-          var imgElem = document.getElementById(selectedImgId);
-          var btnElem = document.getElementById(selectedBtnId);
+        function resetFilterImages(){
+            var imgFltr1 = document.getElementById('imgFltr1');
+            var imgFltr2 = document.getElementById('imgFltr2');
+            var imgFltr3 = document.getElementById('imgFltr3');
+            var imgFltr4 = document.getElementById('imgFltr4');
 
-          imgElem.style.borderStyle = "solid";
-          btnElem.style.background = "green";
+            imgFltr1.style.backgroundImage = "url('/images/sheppLoganPhantom.png')";
+            imgFltr2.style.backgroundImage = "url('/images/sheppLoganPhantom.png')";
+            imgFltr3.style.backgroundImage = "url('/images/sheppLoganPhantom.png')";
+            imgFltr4.style.backgroundImage = "url('/images/sheppLoganPhantom.png')";
+        }
+        
+        var allowSelection = false;
+        function highlightSelection(imgId, btnId, indx){
+              if(allowSelection == false) return;
 
-          //@todo enable Next btn
+              selectedIndex = indx;
+              clearSelection();
+
+              selectedImgId = imgId;
+              selectedBtnId = btnId;
+              var imgElem = document.getElementById(selectedImgId);
+              var btnElem = document.getElementById(selectedBtnId);
+
+              imgElem.style.borderStyle = "solid";
+              btnElem.style.background = "green";
+
+              var btnNext = document.getElementById("btnNext");
+              btnNext.className = 'user-button-enabled'
+        }
+
+        function onProcess(){
+
+          try{
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.open("GET", "http://localhost:5001/getFilterImages", false);
+                xmlhttp.send();
+                resp = JSON.parse(xmlhttp.response);
+
+                if(resp.status == "Ok"){
+                    var imgFltr1 = document.getElementById('imgFltr1');
+                    var imgFltr2 = document.getElementById('imgFltr2');
+                    var imgFltr3 = document.getElementById('imgFltr3');
+                    var imgFltr4 = document.getElementById('imgFltr4');
+
+                    imgFltr1.style.backgroundImage = "url('" + resp.filterImages[0] + "')";
+                    imgFltr2.style.backgroundImage = "url('" + resp.filterImages[1] + "')";
+                    imgFltr3.style.backgroundImage = "url('" + resp.filterImages[2] + "')";
+                    imgFltr4.style.backgroundImage = "url('" + resp.filterImages[3] + "')";
+
+                    allowSelection = true;
+                }
+            }
+            catch(err){ }            
+        }
+
+        function onNext(){
+            var ipImg = document.getElementById('ipImg');
+            var btnProc = document.getElementById("btnProc");
+
+            if(selectedIndex != -1){
+              try{
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.open("POST", "http://localhost:5001/selectedFilter", false);
+                xmlhttp.setRequestHeader("Content-Type", "application/json");
+                xmlhttp.send(JSON.stringify({ filteri: selectedIndex}));
+              }
+              catch(err){ }
+            }
+            try{
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.open("GET", "http://localhost:5001/getNextImageManual", false);
+                xmlhttp.send();
+                resp = JSON.parse(xmlhttp.response);
+
+                if(resp.status == "Ok"){
+                    ipImg.style.backgroundImage = "url('" + resp.input + "')";
+                    btnProc.className = 'user-button-enabled';
+
+                }
+                else if(resp.status == "Done"){
+                    ipImg.style.backgroundImage = "url('/images/sheppLoganPhantom.png')";
+                    btnProc.className = 'user-button-dissabled';
+                }
+            }
+            catch(err){ }
+
+            var btnNext = document.getElementById("btnNext");
+            btnNext.className = 'user-button-dissabled';
+            selectedIndex = -1;
+            allowSelection = false;
+            clearSelection();
+            resetFilterImages();
         }
     </script>
   </head>
@@ -42,8 +127,8 @@
           <div id="ipImg" class="trainimagediv" style="margin-top: 10%; margin-left: 5%; background-image: url('/images/sheppLoganPhantom.png'); background-repeat: no-repeat; background-size: 100% 100%"></div>
           <div id="imgFltr1" class="filterimagediv" style="margin-top: 6%; margin-left: 44%; background-image: url('/images/sheppLoganPhantom.png'); background-repeat: no-repeat; background-size: 100% 100%;  border: 1px; border-style: none; border-color: green"></div>
           <div id="imgFltr2" class="filterimagediv" style="margin-top: 6%; margin-left: 60%; background-image: url('/images/sheppLoganPhantom.png'); background-repeat: no-repeat; background-size: 100% 100%;  border: 1px; border-style: none; border-color: green"></div>
-          <div id="imgFltr3" class="filterimagediv" style="margin-top: 20%; margin-left: 44%; background-image: url('/images/sheppLoganPhantom.png'); background-repeat: no-repeat; background-size: 100% 100%; border: 1px; border-style: none; border-color: green"></div>
-          <div id="imgFltr4" class="filterimagediv" style="margin-top: 20%; margin-left: 60%; background-image: url('/images/sheppLoganPhantom.png'); background-repeat: no-repeat; background-size: 100% 100%; border: 1px; border-style: none; border-color: green"></div>
+          <div id="imgFltr3" class="filterimagediv" style="margin-top: 22.5%; margin-left: 44%; background-image: url('/images/sheppLoganPhantom.png'); background-repeat: no-repeat; background-size: 100% 100%; border: 1px; border-style: none; border-color: green"></div>
+          <div id="imgFltr4" class="filterimagediv" style="margin-top: 22.5%; margin-left: 60%; background-image: url('/images/sheppLoganPhantom.png'); background-repeat: no-repeat; background-size: 100% 100%; border: 1px; border-style: none; border-color: green"></div>
 
           <div class="nonSelectableText" style="position: absolute; margin-top: 6%; margin-left: 5%;">
               <div style="position: absolute; width: 300px; background: rgb(204, 203, 203);
@@ -55,8 +140,8 @@
                 Input Image
               </div>
           </div>
-
-          <div class="nonSelectableText" style="position: absolute; margin-top: 16%; margin-left: 44%;">
+          
+          <div class="nonSelectableText" style="position: absolute; margin-top: 17.5%; margin-left: 44%;">
             <div id = "btnfltr1" style="position: absolute; width: 150px; background: rgb(99, 173, 80);
                                       color: #363636;
                                       text-align: center;
@@ -65,7 +150,7 @@
               Filter 1
             </div>
           </div>
-          <div class="nonSelectableText" style="position: absolute; margin-top: 16%; margin-left: 60%;">
+          <div class="nonSelectableText" style="position: absolute; margin-top: 17.5%; margin-left: 60%;">
             <div id = "btnfltr2" style="position: absolute; width: 150px; background: rgb(99, 173, 80);
                                       color: #363636;
                                       text-align: center;
@@ -74,7 +159,7 @@
               Filter 2
             </div>
           </div>
-          <div class="nonSelectableText" style="position: absolute; margin-top: 30%; margin-left: 44%;">
+          <div class="nonSelectableText" style="position: absolute; margin-top: 33.9%; margin-left: 44%;">
             <div id ="btnfltr3" style="position: absolute; width: 150px; background: rgb(99, 173, 80);
                                       color: #363636;
                                       text-align: center;
@@ -83,7 +168,7 @@
               Filter 3
             </div>
           </div>
-          <div class="nonSelectableText" style="position: absolute; margin-top: 30%; margin-left: 60%;">
+          <div class="nonSelectableText" style="position: absolute; margin-top: 33.9%; margin-left: 60%;">
             <div id ="btnfltr4" style="position: absolute; width: 150px; background: rgb(99, 173, 80);
                                       color: #363636;
                                       text-align: center;
@@ -96,6 +181,11 @@
           <div class="nonSelectableText" style="position: absolute; margin-top: 33%; margin-left: 5%;">
               <div id="btnNext" class="user-button-enabled" style="position: absolute; width: 300px;" onclick="onNext()">
                 Next
+              </div>
+          </div>
+          <div class="nonSelectableText" style="position: absolute; margin-top: 19.4%; margin-left: 30%;">
+              <div id="btnProc" class="user-button-dissabled" style="position: absolute; width: 160px;" onclick="onProcess()">
+                Process
               </div>
           </div>
       </div>

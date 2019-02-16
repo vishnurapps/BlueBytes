@@ -19,17 +19,17 @@
 
 
           try{
-                    do{
-                      xmlhttp = new XMLHttpRequest();
-                      xmlhttp.open("GET", "http://localhost:5001/autoTrainStatus", false);
-                      xmlhttp.send();
-                      resp = JSON.parse(xmlhttp.response);
-                    
-                      progBar.style.width = resp.perc + "%";
-                      progPerc.textContent = resp.perc + " %";
-                      ipImgDiv.style.backgroundImage = "url('" + resp.ipImage + "')";
-                      opImgDiv.style.backgroundImage = "url('" + resp.opImage + "')";
-                    }while(xmlhttp.status == 200 && resp.status != "done");
+                do{
+                  xmlhttp = new XMLHttpRequest();
+                  xmlhttp.open("GET", "http://localhost:5001/autoTrainStatus", false);
+                  xmlhttp.send();
+                  resp = JSON.parse(xmlhttp.response);
+                
+                  progBar.style.width = resp.percentage + "%";
+                  progPerc.textContent = resp.percentage + " %";
+                  ipImgDiv.style.backgroundImage = "url('" + resp.inputFile + "')";
+                  opImgDiv.style.backgroundImage = "url('" + resp.outfile + "')";
+                }while(xmlhttp.status == 200 && resp.status != "Completed");
 
           }
           catch(err){ }

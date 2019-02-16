@@ -32,10 +32,10 @@ var server = app.listen(5001, function () {
     res.end( JSON.stringify({"value": "1"}));
  });
 
- autoTrainMock = [{status: "", perc: 10,ipImage:"https://www.fda.gov/ucm/groups/fdagov-public/documents/image/ucm437096.jpg", opImage:"http://a360-wp-uploads.s3.amazonaws.com/wp-content/uploads/x7mag/2017/10/dreamstime_s_68930604-466x310.jpg"},
-                  {status: "", perc: 20,ipImage:"http://a360-wp-uploads.s3.amazonaws.com/wp-content/uploads/x7mag/2017/10/dreamstime_s_68930604-466x310.jpg", opImage:"https://www.fda.gov/ucm/groups/fdagov-public/documents/image/ucm437096.jpg"},
-                  {status: "", perc: 60,ipImage:"https://www.fda.gov/ucm/groups/fdagov-public/documents/image/ucm437096.jpg", opImage:"http://a360-wp-uploads.s3.amazonaws.com/wp-content/uploads/x7mag/2017/10/dreamstime_s_68930604-466x310.jpg"},
-                  {status: "done", perc: 100,ipImage:"http://a360-wp-uploads.s3.amazonaws.com/wp-content/uploads/x7mag/2017/10/dreamstime_s_68930604-466x310.jpg", opImage:"https://www.fda.gov/ucm/groups/fdagov-public/documents/image/ucm437096.jpg"}];
+ autoTrainMock = [{status: "Pending", percentage: 10,inputFile:"https://www.fda.gov/ucm/groups/fdagov-public/documents/image/ucm437096.jpg", outfile:"http://a360-wp-uploads.s3.amazonaws.com/wp-content/uploads/x7mag/2017/10/dreamstime_s_68930604-466x310.jpg"},
+                  {status: "Pending", percentage: 20,inputFile:"http://a360-wp-uploads.s3.amazonaws.com/wp-content/uploads/x7mag/2017/10/dreamstime_s_68930604-466x310.jpg", outfile:"https://www.fda.gov/ucm/groups/fdagov-public/documents/image/ucm437096.jpg"},
+                  {status: "Pending", percentage: 60,inputFile:"https://www.fda.gov/ucm/groups/fdagov-public/documents/image/ucm437096.jpg", outfile:"http://a360-wp-uploads.s3.amazonaws.com/wp-content/uploads/x7mag/2017/10/dreamstime_s_68930604-466x310.jpg"},
+                  {status: "Completed", percentage: 100,inputFile:"http://a360-wp-uploads.s3.amazonaws.com/wp-content/uploads/x7mag/2017/10/dreamstime_s_68930604-466x310.jpg", outfile:"https://www.fda.gov/ucm/groups/fdagov-public/documents/image/ucm437096.jpg"}];
 
  app.get('/autoTrainStatus', function (req, res) {
    mocki = (++mocki)%4;
@@ -54,4 +54,30 @@ var server = app.listen(5001, function () {
    setTimeout(function(){res.json({opImage:"https://www.fda.gov/ucm/groups/fdagov-public/documents/image/ucm437096.jpg", expImage:"http://a360-wp-uploads.s3.amazonaws.com/wp-content/uploads/x7mag/2017/10/dreamstime_s_68930604-466x310.jpg"})}, 1000);
 });
  
+mockmanualNexti =0;
+MockNextManual = [{status: "Ok", input:"https://www.fda.gov/ucm/groups/fdagov-public/documents/image/ucm437096.jpg"},
+            {status: "Ok", input:"http://a360-wp-uploads.s3.amazonaws.com/wp-content/uploads/x7mag/2017/10/dreamstime_s_68930604-466x310.jpg"},
+            {status: "Done", input:null}];
+
+app.get('/getNextImageManual', function (req, res) {
+   mockmanualNexti = (++mockmanualNexti)%3;
+   setTimeout(function(){res.json(MockNextManual[mockmanualNexti])}, 1000);
+});
+
+var filterImages = {status: "Ok",
+                    filterImages: ["https://www.fda.gov/ucm/groups/fdagov-public/documents/image/ucm437096.jpg",
+                                   "http://a360-wp-uploads.s3.amazonaws.com/wp-content/uploads/x7mag/2017/10/dreamstime_s_68930604-466x310.jpg",
+                                   "https://www.fda.gov/ucm/groups/fdagov-public/documents/image/ucm437096.jpg",
+                                   "http://a360-wp-uploads.s3.amazonaws.com/wp-content/uploads/x7mag/2017/10/dreamstime_s_68930604-466x310.jpg"]};
+app.get('/getFilterImages', function (req, res) {
+   setTimeout(function(){res.json(filterImages)}, 1000);
+});
+
+app.post('/selectedFilter', jsonParser, function (req, res) {
+   console.log(req.body);
+   res.send();
+});
+
+
+
  
