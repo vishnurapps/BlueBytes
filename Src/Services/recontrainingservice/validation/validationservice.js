@@ -56,7 +56,7 @@ ValidationService.prototype.registerNextInput = function(app){
  * Register for Process using AI model
  * 
  */
-/*ValidationService.prototype.registerValidationProcess = function(app){
+ValidationService.prototype.registerValidationProcess = function(app){
     app.get(Util.VALIDATION_PROCESS_REQUEST_URL, function (req, res) {
 		// Reply acknowledgment
 		res.end();
@@ -109,14 +109,14 @@ ValidationService.prototype.registerNextInput = function(app){
             }
         });
     });
-}*/
+}
 
 //TEST SAMPLE
 /**
  * Register for Process using AI model
  * 
  */
-ValidationService.prototype.registerValidationProcess = function(app){
+/*ValidationService.prototype.registerValidationProcess = function(app){
     app.get(Util.VALIDATION_PROCESS_REQUEST_URL, function (req, res) {
 		// Reply acknowledgment
 		res.end();
@@ -149,6 +149,6 @@ ValidationService.prototype.registerValidationProcess = function(app){
 			currentImageIndex = 0;
 		}
     });
-}
+}*/
 
 module.exports = ValidationService;
