@@ -5,48 +5,42 @@
     <title>Auto Training</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+	<script src= 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>
+	<script src= 'https://code.jquery.com/jquery-1.11.1.js'></script>
     <script>
-        var RestBaseURL = "http://localhost:5001/";
-
+        var RestBaseURL = "http://localhost:5003/";
+		var socket = io(RestBaseURL);
+		
+		socket.on("auto-response", (data) =>{
+			var progdiv = document.getElementById('learnProgressInfo');
+			var progBar = document.getElementById('trainprog');
+			var progPerc = document.getElementById('trainPerc');
+			var ipImgDiv = document.getElementById('autoIpImg');
+			var opImgDiv = document.getElementById('autoOpImg');
+			
+			console.log(data.inputFile);
+			console.log(data.percentage);
+			
+			progBar.style.width = data.percentage + "%";
+			progPerc.textContent = data.percentage + " %";
+			ipImgDiv.style.backgroundImage = "url('" + data.inputFile + "')";
+			opImgDiv.style.backgroundImage = "url('" + data.outfile + "')";
+		})
+		
         function doAutoTraining(){
-          var progdiv = document.getElementById('learnProgressInfo');
-          var progBar = document.getElementById('trainprog');
-          var progPerc = document.getElementById('trainPerc');
-          var ipImgDiv = document.getElementById('autoIpImg');
-          var opImgDiv = document.getElementById('autoOpImg');
-
           var btnStart = document.getElementById('btnStart');
           btnStart.className = 'user-button-dissabled';
 
           try{
-                // var xmlhttp = new XMLHttpRequest();
-                // var url = "http://192.168.3.167:5003/auto/";
-
-                // xmlhttp.onreadystatechange = function() {
-                //     if (this.readyState == 4 && this.status == 200) {
-                //         var resp = JSON.parse(this.responseText);
-                //         progBar.style.width = resp.percentage + "%";
-                //         progPerc.textContent = resp.percentage + " %";
-                //         ipImgDiv.style.backgroundImage = "url('" + resp.inputFile + "')";
-                //         opImgDiv.style.backgroundImage = "url('" + resp.outfile + "')";
-                //     }
-                // };
-                // xmlhttp.open("GET", url, true);
-                // xmlhttp.send();
-
-                do{
-                  xmlhttp = new XMLHttpRequest();
-                  xmlhttp.open("GET", RestBaseURL + "auto", false);
-                  xmlhttp.send();
-                  resp = JSON.parse(xmlhttp.response);
-                
-                  progBar.style.width = resp.percentage + "%";
-                  progPerc.textContent = resp.percentage + " %";
-                  ipImgDiv.style.backgroundImage = "url('" + resp.inputFile + "')";
-                  opImgDiv.style.backgroundImage = "url('" + resp.outfile + "')";
-                }while(xmlhttp.status == 200 && resp.status != "COMPLETED");
-          }
-          catch(err){ }
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+						console.log("Request Success");
+                    }
+                };
+                xmlhttp.open("GET", RestBaseURL + "auto/", true);
+                xmlhttp.send();
+          }catch(err){ }
           finally{
               btnStart.className = 'user-button-enabled';
           }
@@ -61,8 +55,8 @@
             <span class="selectablelink nonSelectableText" onclick="window.location.replace('./validate')">Validation</span>
           </div>
 
-        <div id="autoIpImg" class="trainimagediv" style="margin-top: 10%; margin-left: 10%; background-image: url('/images/sheppLoganPhantom.png'); background-repeat: no-repeat; background-size: 100% 100%"></div>
-        <div id="autoOpImg" class="trainimagediv" style="margin-top: 10%; margin-left: 65%; background-image: url('/images/sheppLoganPhantom.png'); background-repeat: no-repeat; background-size: 100% 100%"></div>
+        <div id="autoIpImg" class="trainimagediv" style="margin-top: 10%; margin-left: 10%; border-style: outset; border-width: 1px; background-repeat: no-repeat; background-size: 100% 100%"></div>
+        <div id="autoOpImg" class="trainimagediv" style="margin-top: 10%; margin-left: 65%; border-style: outset; border-width: 1px; background-repeat: no-repeat; background-size: 100% 100%"></div>
         <div class="progressbar" style="margin-top: 15%;margin-left: 38%;">
             <div id = "trainprog" style="background: green; height: 100%; width: 0%"></div>
         </div>

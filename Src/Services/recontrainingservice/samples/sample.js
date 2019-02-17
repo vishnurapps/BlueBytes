@@ -18,12 +18,12 @@
 // Use python shell
 const {PythonShell} = require("python-shell")
 
-var myPythonScriptPath = 'sample1.py';
+var myPythonScriptPath = 'C:\Anoop\StudyTools\2.WorkFolders\Hackathon\BlueBytes\Src\Services\recontrainingservice\samples\sample1.py';
 var myPythonScriptPath2 = 'sample2.py';
 
 
-var pyshell = new PythonShell(myPythonScriptPath);
-var pyshell2 = new PythonShell(myPythonScriptPath2);
+//var pyshell = new PythonShell(myPythonScriptPath);
+//var pyshell2 = new PythonShell(myPythonScriptPath2);
 
 /************WITHOUT ARG********* */
 // pyshell.on('message', options, function (message) {
@@ -41,21 +41,21 @@ var pyshell2 = new PythonShell(myPythonScriptPath2);
 // });
 
 /************WITH ARG********* */
-// var options = {
-//     mode: 'text',
-//     args: ['my First Argument', 'My Second Argument', '--option=123']
-// };
+ var options = {
+     mode: 'text',
+     args: ['my First Argument', 'My Second Argument', '--option=123']
+ };
 
-// PythonShell.run(myPythonScriptPath, options, function (err, results) {
-//     if (err) throw err;
-//     // results is an array consisting of messages collected during execution
-//     console.log('results: %j', results);
-// });
+ PythonShell.run(myPythonScriptPath, options, function (err, results) {
+     if (err) throw err;
+     // results is an array consisting of messages collected during execution
+     console.log('results: %j', results);
+ });
 
 
 /************PASSING ARG FROM NODE********* */
 
-pyshell2.send(JSON.stringify([1,2,3,4,5]));
+/*pyshell2.send(JSON.stringify([1,2,3,4,5]));
 
 pyshell2.on('message', function (message) {
     // received a message sent from the Python script (a simple "print" statement)
@@ -69,4 +69,4 @@ pyshell2.end(function (err) {
     };
 
     console.log('finished');
-});
+});*/

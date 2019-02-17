@@ -1,0 +1,4 @@
+1. Node jS
+	- Express   npm install express
+	- Socket-io npm install socket.io
+	- PythonShell npm install python-shell   (Requires python instalation)

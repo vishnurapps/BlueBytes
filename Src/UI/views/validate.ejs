@@ -5,60 +5,67 @@
     <title>Auto Training</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+	<script src= 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>
+	<script src= 'https://code.jquery.com/jquery-1.11.1.js'></script>	
     <script>
-        var RestBaseURL = "http://localhost:5001/";
+        var RestBaseURL = "http://localhost:5003/";
+		var socket = io(RestBaseURL);
+		
+		socket.on("validation-next-response", (data) =>{
+			var ipImgDiv = document.getElementById('ipImg');
+			var btnNext = document.getElementById('btnNext');
+		
+			if(data.status == "NONE"){
+				ipImgDiv.style.backgroundImage = "url('" + data.inputFile + "')";
+				btnNext.className = 'user-button-dissabled';
+			}
+			else if(data.status == "COMPLETED"){
+				ipImgDiv.style.backgroundImage = "url('" + data.inputFile + "')";
+				btnNext.className = 'user-button-dissabled';
+			}
+		})
+		
+		socket.on("validation-process-response", (data) =>{
+			var genImgDiv = document.getElementById('genImg');
+			var expImgDiv = document.getElementById('imgexp');
+			var btnNext = document.getElementById('btnNext');
+			
+			/*var lbl1 = document.getElementById('measureDiv1');
+			var lbl2 = document.getElementById('measureDiv2');
+			var lbl3 = document.getElementById('measureDiv3');
+			var lbl4 = document.getElementById('measureDiv4');*/
+		  
+			genImgDiv.style.backgroundImage = "url('" + data.genfile + "')";
+			expImgDiv.style.backgroundImage = "url('" + data.outfile + "')";
+			btnNext.className = 'user-button-enabled';
+			
+			/*lbl1.innerText = resp.labels[0];
+			lbl2.innerText = resp.labels[1];
+			lbl3.innerText = resp.labels[2];
+			lbl4.innerText = resp.labels[3];*/
+		})		
 
         function doProcessing(){
-          var opImgDiv = document.getElementById('opImg');
-          var expImgDiv = document.getElementById('imgexp');
-          var lbl1 = document.getElementById('measureDiv1');
-          var lbl2 = document.getElementById('measureDiv2');
-          var lbl3 = document.getElementById('measureDiv3');
-          var lbl4 = document.getElementById('measureDiv4');
-
           try{
                 xmlhttp = new XMLHttpRequest();
                 xmlhttp.open("GET", RestBaseURL + "validation/process", false);
                 xmlhttp.send();
-                resp = JSON.parse(xmlhttp.response);
-              
-                opImgDiv.style.backgroundImage = "url('" + resp.outfile + "')";
-                expImgDiv.style.backgroundImage = "url('" + resp.genfile + "')";
-                lbl1.innerText = resp.labels[0];
-                lbl2.innerText = resp.labels[1];
-                lbl3.innerText = resp.labels[2];
-                lbl4.innerText = resp.labels[3];
+                //resp = JSON.parse(xmlhttp.response);
           }
           catch(err){ }
-          finally{
-              
+          finally{             
           }
         }
 
         function onNext(){
-          var opImgDiv = document.getElementById('opImg');
-          var expImgDiv = document.getElementById('imgexp');
-          var ipImgDiv = document.getElementById('ipImg');
-          var btnNext = document.getElementById('btnNext');
-
           try{
                 xmlhttp = new XMLHttpRequest();
                 xmlhttp.open("GET", RestBaseURL + "validation/next", false);
                 xmlhttp.send();
-
-                resp = JSON.parse(xmlhttp.response);
-                if(resp.status == "NONE"){
-                    ipImgDiv.style.backgroundImage = "url('" + resp.inputFile + "')";
-                    opImgDiv.style.backgroundImage = "url('/images/sheppLoganPhantom.png')";
-                    expImgDiv.style.backgroundImage = "url('/images/sheppLoganPhantom.png')";
-                }
-                else if(resp.status == "COMPLETED"){
-                  btnNext.className = 'user-button-dissabled';
-                }
+               // resp = JSON.parse(xmlhttp.response);
           }
           catch(err){ }
-          finally{
-              
+          finally{      
           }
         }
     </script>
@@ -71,9 +78,9 @@
             <span class="dissabledlink nonSelectableText">Validation</span>
           </div>
 
-        <div id="ipImg" class="trainimagediv" style="margin-top: 10%; margin-left: 5%; background-image: url('/images/sheppLoganPhantom.png'); background-repeat: no-repeat; background-size: 100% 100%"></div>
-        <div id="opImg" class="trainimagediv" style="margin-top: 10%; margin-left: 42%; background-image: url('/images/sheppLoganPhantom.png'); background-repeat: no-repeat; background-size: 100% 100%"></div>
-        <div id="imgexp" class="trainimagediv" style="margin-top: 10%; margin-left: 65%; background-image: url('/images/sheppLoganPhantom.png'); background-repeat: no-repeat; background-size: 100% 100%"></div>
+        <div id="ipImg" class="trainimagediv" style="margin-top: 10%; margin-left: 5%; background-repeat: no-repeat; border-style: outset; border-width: 1px; background-size: 100% 100%"></div>
+        <div id="genImg" class="trainimagediv" style="margin-top: 10%; margin-left: 42%; background-repeat: no-repeat;border-style: outset; border-width: 1px; background-size: 100% 100%"></div>
+        <div id="imgexp" class="trainimagediv" style="margin-top: 10%; margin-left: 65%; background-repeat: no-repeat;border-style: outset; border-width: 1px; background-size: 100% 100%"></div>
         
         <div class="nonSelectableText" style="position: absolute; margin-top: 6%; margin-left: 5%;">
             <div style="position: absolute; width: 300px; background: rgb(204, 203, 203);
@@ -106,7 +113,7 @@
             </div>
         </div>
 
-        <div class="nonSelectableText" style="position: absolute; margin-top: 33%; margin-left: 42%;">
+        <!--<div class="nonSelectableText" style="position: absolute; margin-top: 33%; margin-left: 42%;">
             <div id="measureDiv1" style="width: 300px;
                                     color: white;
                                     text-align: left;
@@ -135,7 +142,7 @@
                                     pointer-events: none;
                                     cursor: default;">
             </div>
-        </div>
+        </div>-->
 
         <div class="nonSelectableText" style="position: absolute; margin-top: 20%; margin-left: 30%;">
             <div id="btnProcess" class="user-button-enabled" style="position: absolute; width: 120px;" onclick="doProcessing()">

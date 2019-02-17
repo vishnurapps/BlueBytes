@@ -13,7 +13,7 @@ function ManualTrainingService(){
     createGenFilePaths();
 }
 
-// ::TODO::
+
 function createGenFilePaths(){
     this.genFiles = new Array();
     for(let index = 0; index < inputFiles.length; index++){
@@ -28,16 +28,24 @@ function createGenFilePaths(){
  * 
  */
 ManualTrainingService.prototype.registerNextInput = function(app){
-    app.get('/manual/next', function (req, res) {
+    app.get(Util.MANUAL_NEXT_REQUEST_URL, function (req, res) {
+		// Reply acknowledgment
+		res.end();
+		
         // 1. Get the Next input image url
         var nextInputUrl = Util.getFileUrl(Util.MANUAL_MODE_IN_FOLDER + '/' + this.inputFiles[currentImageIndex]);
         var statusValue = currentImageIndex ==  this.inputFiles.length - 1 ? Util.STATUS_COMPLETED : Util.STATUS_NONE;
         var nextImageObj = { inputFile: nextInputUrl, status: statusValue }; 
 
         // 2. Update the response with next image url
-        res.write(JSON.stringify(nextImageObj));
-        res.end();
+		module.socket.emit(Util.MANUAL_NEXT_RESPONSE_URL,  nextImageObj);
+        //res.write(JSON.stringify(nextImageObj));
+        //res.end();
     });
+}
+
+ManualTrainingService.prototype.setSocket = function(socket){
+	module.socket = socket;
 }
 
 /**
@@ -45,7 +53,10 @@ ManualTrainingService.prototype.registerNextInput = function(app){
  * 
  */
 ManualTrainingService.prototype.registerManualProcess = function(app){
-    app.get('/manual/process', function (req, res) {
+    app.get(Util.MANUAL_PROCESS_REQUEST_URL, function (req, res) {
+		// Reply acknowledgment
+		res.end();
+		
         // 1. Get the current input, generated and output image urls
         var inImageUrl = Util.getFileUrl(Util.MANUAL_MODE_IN_FOLDER + '/' + this.inputFiles[currentImageIndex]);
         var outImageUrl = Util.getFileUrl(Util.MANUAL_MODE_OUT_FOLDER + '/' + this.outputFiles[currentImageIndex]);
@@ -62,9 +73,11 @@ ManualTrainingService.prototype.registerManualProcess = function(app){
         var manualTrainingModel = new ManualTrainingModel(
                                     inImageUrl, outImageUrl, genImageUrlArray,
                                     status, percentage);
+		
         // 4. Update the response with processed and expected out image url
-        res.write(JSON.stringify(manualTrainingModel));
-        res.end();
+		module.socket.emit(Util.MANUAL_PROCESS_RESPONSE_URL,  manualTrainingModel);
+        //res.write(JSON.stringify(manualTrainingModel));
+        //res.end();
 
 
         // Update current image index and reset to 0 if greater.

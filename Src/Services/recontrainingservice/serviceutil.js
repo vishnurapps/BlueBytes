@@ -2,10 +2,14 @@ const fs = require('fs');
 const url = require('url');
 
 // Host and Port
-const HOST_NAME = "192.168.3.167";
+const HOST_NAME = "localhost";
 exports.HOST_NAME = HOST_NAME;
 const PORT = 5003;
 exports.PORT = PORT;
+
+exports.AUTO_SERVICE_RESPONSE_DELAY = 2000;
+exports.MANUAL_SERVICE_RESPONSE_DELAY = 2000;
+exports.VALIDATION_SERVICE_RESPONSE_DELAY = 2000;
 
 // Public Resource folders
 const PUBLIC_RESOURCE_FOLDER = "/TestData";
@@ -14,6 +18,20 @@ const PUBLIC_RESOURCE_FULL_PATH = require('path').join(__dirname, PUBLIC_RESOURC
 exports.PUBLIC_RESOURCE_FULL_PATH = PUBLIC_RESOURCE_FULL_PATH;
 
 // URL String
+exports.AUTO_REQUEST_URL = '/auto';
+exports.AUTO_RESPONSE_URL = 'auto-response';
+
+exports.MANUAL_NEXT_REQUEST_URL = '/manual/next';
+exports.MANUAL_NEXT_RESPONSE_URL = 'manual-next-response';
+exports.MANUAL_PROCESS_REQUEST_URL = '/manual/process';
+exports.MANUAL_PROCESS_RESPONSE_URL = 'manual-process-response';
+
+exports.VALIDATION_NEXT_REQUEST_URL = '/validation/next';
+exports.VALIDATION_NEXT_RESPONSE_URL = 'validation-next-response';
+exports.VALIDATION_PROCESS_REQUEST_URL = '/validation/process';
+exports.VALIDATION_PROCESS_RESPONSE_URL = 'validation-process-response';
+
+
 
 
 exports.AUTO_MODE_IN_FOLDER = "/auto/input";
