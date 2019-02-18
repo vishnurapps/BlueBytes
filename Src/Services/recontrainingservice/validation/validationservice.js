@@ -71,12 +71,13 @@ ValidationService.prototype.registerValidationProcess = function(app){
         // 2. Execute Python script to get the processed image path using AI model
         var options = {mode: 'text', args: [inImage, genImage]};
         PythonShell.run(validationPythonScript, options, function (err, results) {
-			console.log(err);
-			console.log(results);
+			console.log("1 " + err);
+			console.log("2 " + results);
             if (err) throw err;
             // results is an array consisting of messages collected during execution
-            if(results[0] == Util.STATUS_COMPLETED){
+            if(results[3] == Util.STATUS_COMPLETED){
                 // 3. Prepare the validationModel with processed and expected out image url
+                console.log("3 ");
                 let percentage = 100;
                 let status = Util.STATUS_COMPLETED;
                 var validationModel = new ValidationModel(
@@ -90,6 +91,7 @@ ValidationService.prototype.registerValidationProcess = function(app){
                 //res.write(JSON.stringify(validationModel));
                 //res.end();
             }else{
+                console.log("4 ");
                 // 5. Updated with failure
                 let percentage = 0;
                 let status = Util.STATUS_FAILED;

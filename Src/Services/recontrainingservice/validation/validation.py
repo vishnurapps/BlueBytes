@@ -5,12 +5,12 @@ import sys
 
 inputImage = sys.argv[1]
 outputPath = sys.argv[2]
-outputImage = denoise(inputImage)
-scipy.misc.imsave(outputPath, outputImage)
+outputImage = denoise(inputImage, outputPath)
+#scipy.misc.imsave(outputPath, outputImage)
 
 print("COMPLETED")
-print("PSNR")
-print("SSIM")
+#pprint("PSNR")
+#pprint("SSIM")
 #print ("\n".join(sys.argv))
 #print(inputFilePath)
 #print(genFilePath)
